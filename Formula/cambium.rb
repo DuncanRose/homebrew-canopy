@@ -1,37 +1,46 @@
 # typed: false
 # frozen_string_literal: true
 
-# This file was generated from Homebrew's tap generator
+# Cambium - AI Governance Runtime
+# Prevents AI cost overruns with local proxy and policy enforcement
 class Cambium < Formula
-  desc "Reserved under Canopy ecosystem - pre-release / internal"
-  homepage "https://github.com/DuncanRose"
-  version "0.0.0-pre"
+  desc "AI Governance Runtime - Prevent AI cost overruns"
+  homepage "https://github.com/DuncanRose/cambium"
+  url "https://github.com/DuncanRose/cambium/archive/refs/heads/main.zip"
+  version "0.1.0"
   license "MIT"
+  head "https://github.com/DuncanRose/cambium.git", branch: "main"
 
-  on_macos do
-    # Stub formula - pre-release / internal
-  end
+  depends_on "go" => :build
 
   def install
-    # Install placeholder binary that prints reservation message
-    (bin/"cambium").write <<~SHELL
-      #!/bin/bash
-      echo "cambium: Reserved under the Canopy ecosystem." >&2
-      echo "This tool is not yet released publicly." >&2
-      exit 1
-    SHELL
-    chmod 0755, bin/"cambium"
+    ENV["CGO_ENABLED"] = "0"
+    
+    system "go", "build", "-ldflags", "-s -w", "-o", "cambium", "."
+    bin.install "cambium"
   end
 
   test do
-    assert_match "reserved under the Canopy ecosystem", shell_output("#{bin}/cambium 2>&1", 1)
+    assert_match "Policy Evolution & Governance Runtime", shell_output("#{bin}/cambium --help", 0)
   end
 
   def caveats
     <<~EOS
-      cambium: Reserved under the Canopy ecosystem.
-      This tool is not yet released publicly.
+      Cambium is installed! Get started:
+
+      1. Create a policy file:
+         mkdir -p .canopy
+         curl -o .canopy/policy.yaml \\
+           https://raw.githubusercontent.com/DuncanRose/cambium/main/templates/startup-balanced.yaml
+
+      2. Start the proxy:
+         cambium proxy start
+
+      3. Configure your tools:
+         export OPENAI_BASE_URL="http://localhost:8080/v1"
+
+      Cambium is part of the Canopy ecosystem.
+      See https://github.com/DuncanRose/cambium for full documentation.
     EOS
   end
 end
-
