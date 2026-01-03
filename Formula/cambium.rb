@@ -26,21 +26,25 @@ class Cambium < Formula
 
   def caveats
     <<~EOS
-      Cambium is installed! Get started:
+      Cambium is installed! 
 
-      1. Create a policy file:
-         mkdir -p .canopy
-         curl -o .canopy/policy.yaml \\
-           https://raw.githubusercontent.com/DuncanRose/cambium/main/templates/startup-balanced.yaml
+      🚀 Quick Start (Zero-Touch Teams Setup):
+        cambium setup --teams
 
-      2. Start the proxy:
-         cambium proxy start
+      This will:
+        • Check/activate Team Edition license
+        • Collect all API keys interactively
+        • Configure virtual engineering team
+        • Generate complete policy
+        • Verify everything works
+        • Auto-configure Cursor/VS Code
 
-      3. Configure your tools:
-         export OPENAI_BASE_URL="http://localhost:8080/v1"
+      📚 Other Setup Options:
+        cambium setup --wizard    # Interactive setup (free tier)
+        cambium setup --free-tier # Free tier only
+        cambium setup --cursor    # Cursor IDE specific
 
-      Cambium is part of the Canopy ecosystem.
-      See https://github.com/DuncanRose/cambium for full documentation.
+      📖 Documentation: https://github.com/DuncanRose/cambium
     EOS
   end
 end
